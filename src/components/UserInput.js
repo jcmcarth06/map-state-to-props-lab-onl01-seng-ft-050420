@@ -1,47 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-
-class UserInput extends Component {
-
-  state = {
-    username: '',
-    hometown: ''
-  }
-
-  handleInputChange = (event) => {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
-  }
-
-  handleOnSubmit = (event) => {
-    event.preventDefault();
-    this.props.dispatch({type: 'ADD_USER', user: this.state})
-  }
+class Users extends Component {
 
   render() {
-    return(
-      <form onSubmit={this.handleOnSubmit}>
-        <p>
-          <input
-            type="text"
-            id="username"
-            onChange={this.handleInputChange}
-            placeholder="username"
-          />
-        </p>
-        <p>
-          <input
-            type="text"
-            id="hometown"
-            onChange={this.handleInputChange}
-            placeholder="hometown"
-          />
-        </p>
-        <input type="submit" />
-      </form>
+    let users = this.props.users.map((user, index) => <li key={index}>{user.username}</li>);
+    return (
+      <div>
+        {this.props.numberOfUsers}
+
+        <ul>
+          {users}
+
+          {/* Write code here that displays the usernames of all users in the Redux store */}
+          {/* In addition, display the total number of users curently in the store */}
+        </ul>
+      </div>
     )
   }
 }
 
-export default connect()(UserInput);
+//add mapStateToProps here
+
+const mapStateToProps = (state) => {
+  return {
+    users: state.users,
+    numberOfUsers: state.users.length
+  }
+}
+
+// connect this component to Redux
+export default connect(mapStateToProps)(Users)
